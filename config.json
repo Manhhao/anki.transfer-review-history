@@ -1,3 +1,4 @@
 {
-  "delete_source_card": false
+  "delete_source_card": false,
+  "merge_histories": false
 }

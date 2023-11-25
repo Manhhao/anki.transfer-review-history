@@ -21,13 +21,15 @@ def run_on_configuration_change(function) -> None:
 class Config:
   def __init__(self) -> None:
     config = mw.addonManager.getConfig(__name__)
-    self._deleteSourceCard: str = config["delete_source_card"]
+    self._deleteSourceCard: bool = config["delete_source_card"]
+    self._mergeHistories: bool = config["merge_histories"]
 
 
   def save(self):
     """Persist configuration changes back to plugin"""
     mw.addonManager.writeConfig(__name__, {
-      "delete_source_card": self._deleteSourceCard
+      "delete_source_card": self._deleteSourceCard,
+      "merge_histories": self._mergeHistories
     })
 
   @property
@@ -41,6 +43,20 @@ class Config:
   @deleteSourceCard.setter
   def deleteSourceCard(self, value) -> None:
     self._deleteSourceCard = value
+    self.save()
+
+  @property
+  def mergeHistories(self) -> bool:
+    """
+    If true, review histories of two cards will be merged.
+    If false, review history of target crad will be wiped before update.
+    Automatically saves on update
+    """
+    return self._mergeHistories
+
+  @mergeHistories.setter
+  def mergeHistories(self, value) -> None:
+    self._mergeHistories = value
     self.save()
 
 class ReviewHistory:
@@ -69,7 +85,7 @@ class ReviewHistory:
     self.current = self.selected()
     self.updateMenus()
 
-    tooltip("Selected review history for %d" % self.current.id)
+    tooltip("Selected review history for %d" % self.current.id, self.browser)
 
   def transferTo(self) -> None:
     """Transfer review history of previously selected card to current card"""
@@ -89,7 +105,7 @@ class ReviewHistory:
   def updateMenus(self) -> None:
     """Enable or disable menu actions depending on current selection state"""
     if (self.hasSelected()):
-      self.selectAction.setDisabled(self.selected().id == self.current.id if self.current else not self.hasSelected())
+      self.selectAction.setDisabled(self.selected().ivl == 0 or (self.selected().id == self.current.id if self.current else not self.hasSelected()))
       self.targetAction.setDisabled(self.selected().id == self.current.id if self.current else True)
     else:
       self.selectAction.setDisabled(True)
@@ -101,7 +117,7 @@ class ReviewHistory:
     """Create menus in browser and attach its actions"""
     self.browser = browser
 
-    self.menu = QMenu("Review History", self.browser)
+    self.menu = QMenu("Transfer review history", self.browser)
     self.selectAction = QAction("Select current selection for transfer", self.browser)
     self.targetAction = QAction(self.getTargetText(), self.browser)
 
@@ -125,7 +141,7 @@ class ReviewHistory:
 
   def getTargetText(self) -> str:
     """Return target selection text according to delete configuration"""
-    text: str = "Transfer previously selected notes history to current selection"
+    text: str = "Merge review histories into current selection" if self.config.mergeHistories else "Transfer review history to current selection"
 
     if (self.config.deleteSourceCard):
       text = text + " and delete source afterwards"
@@ -134,16 +150,19 @@ class ReviewHistory:
 
   def createPluginMenu(self) -> None:
     """Create configuration menu in tools menu"""
-    checkable = QAction("Delete cards after transferring review history", mw, checkable=True, checked = self.config.deleteSourceCard)
+    deleteCardsOption = QAction("Delete cards after transferring review history", mw, checkable=True, checked = self.config.deleteSourceCard)
+    mergeHistoriesOption = QAction("Merge cards review history", mw, checkable=True, checked = self.config.mergeHistories)
 
-    menu = mw.form.menuTools.addMenu('Review History')
-    menu.addAction(checkable)
+    menu = mw.form.menuTools.addMenu('Transfer review history')
+    menu.addAction(deleteCardsOption)
+    menu.addAction(mergeHistoriesOption)
 
-    qconnect(checkable.triggered, self.updateConfig)
+    qconnect(deleteCardsOption.triggered, lambda v: self.updateConfig('deleteSourceCard', v))
+    qconnect(mergeHistoriesOption.triggered, lambda v: self.updateConfig('mergeHistories', v))
 
-  def updateConfig(self, value: bool) -> None:
+  def updateConfig(self, key: str, value: bool) -> None:
     """Update delete card configuration"""
-    self.config.deleteSourceCard = value
+    setattr(self.config, key, value)
 
     if (self.menu):
       self.updateTargetText()
@@ -163,7 +182,7 @@ class ReviewHistory:
     toCard.queue = fromCard.queue
     toCard.ivl = fromCard.ivl
     toCard.factor = fromCard.factor
-    toCard.lapses = 0
+    toCard.lapses = fromCard.lapses
     toCard.left = fromCard.left
     toCard.due = fromCard.due
     toCard.odue = fromCard.odue
@@ -185,7 +204,7 @@ class ReviewHistory:
     """
     Perform actual data transfer:
     * Persist card changes in database
-    * Rewrite revlog
+    * Rewrite or Merge revlog
     * Delete card if requested
 
     Perform in transaction!
@@ -194,6 +213,10 @@ class ReviewHistory:
     # We do not allow undoing this action.
     # Deleting the card though will be undoable by default
     mw.col.update_card(toCard, skip_undo_entry=True)
+
+    if not self.config.mergeHistories:
+      mw.col.db.all("DELETE FROM revlog WHERE cid = ?", toCard.id)
+
     mw.col.db.all("UPDATE revlog SET cid = ? WHERE cid = ?", toCard.id, fromCard.id)
 
     if (self.config.deleteSourceCard):
