@@ -85,7 +85,7 @@ class ReviewHistory:
     self.current = self.selected()
     self.updateMenus()
 
-    tooltip("Selected review history for %d" % self.current.id, self.browser)
+    tooltip("Selected review history for %d" % self.current.id)
 
   def transferTo(self) -> None:
     """Transfer review history of previously selected card to current card"""
