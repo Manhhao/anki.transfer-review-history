@@ -14,6 +14,10 @@ Please report issues or future requests on the linked github.
 
 ## Changelog
 
+### 2023-12-06
+
+- Fixed an issue where notifications in the browser window would result in a crash
+
 ### 2023-11-25
 
 - Added an option to merge or replace the review history on the targetet item
