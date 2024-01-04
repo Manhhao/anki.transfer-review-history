@@ -3,7 +3,6 @@ from aqt import gui_hooks, mw
 from aqt.utils import tooltip, qconnect
 from aqt.browser import Browser
 from aqt.qt import QAction, QMenu
-from aqt.operations.scheduling import forget_cards
 from anki.cards import Card
 from anki.lang import _
 from anki.utils import int_time
