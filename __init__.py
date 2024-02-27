@@ -3,6 +3,7 @@ from aqt import gui_hooks, mw
 from aqt.utils import tooltip, qconnect
 from aqt.browser import Browser
 from aqt.qt import QAction, QMenu
+from aqt.operations.scheduling import forget_cards
 from anki.cards import Card
 from anki.lang import _
 from anki.utils import int_time
@@ -23,6 +24,8 @@ class Config:
     config = mw.addonManager.getConfig(__name__)
     self._deleteSourceCard: bool = config["delete_source_card"]
     self._mergeHistories: bool = config["merge_histories"]
+    self._targetDeck: str = config["target_deck"]
+    self._sourceDeck: str = config["source_deck"]
 
 
   def save(self):
@@ -31,6 +34,22 @@ class Config:
       "delete_source_card": self._deleteSourceCard,
       "merge_histories": self._mergeHistories
     })
+
+  @property
+  def targetDeck(self) -> str:
+    """
+    Wether or not to delete the original card after transferring the review history.
+    Automatically saves on update
+    """
+    return self._targetDeck
+
+  @property
+  def sourceDeck(self) -> str:
+    """
+    Wether or not to delete the original card after transferring the review history.
+    Automatically saves on update
+    """
+    return self._sourceDeck
 
   @property
   def deleteSourceCard(self) -> bool:
@@ -197,6 +216,40 @@ class ReviewHistory:
     """
     self.transferData(fromCard, toCard, "Copied", lambda: self.copyInDb(fromCard, toCard))
 
+  def copyReviewHistoryModified(self, fromCard: Card, toCard: Card) -> None:
+    """
+    Copy review history from one card to another.
+    Search and reselect target card afterwards.
+
+    Manhhao: runs the modified function instead
+    """
+    self.transferDataModified(fromCard, toCard, "Copied", lambda: self.copyInDb(fromCard, toCard))
+
+  def transferDataModified(self, fromCard: Card, toCard: Card, keyword: str, withTransaction: Callable[[], None]) -> None:
+    """
+    Transfer review data from one card to another and call provided callback afterwards.
+
+    Manhhao: This is modified to be ran with my code
+    """
+    # fromF1 = fromCard.note().fields[0]
+    # toF1 = toCard.note().fields[0]
+
+    # mw.progress.start()
+
+    self.copyCardStats(fromCard, toCard)
+    self.prepareTargetCard(toCard)
+
+    mw.col.db.transact(withTransaction)
+    # mw.progress.finish()
+
+    # self.browser.search()
+    # self.browser.table.select_single_card(toCard.id)
+
+    fromCard.load()
+    toCard.load()
+
+    # tooltip("%s review history from '%s' to '%s'" % (keyword, truncateString(fromF1), truncateString(toF1)) )
+
   def transferData(self, fromCard: Card, toCard: Card, keyword: str, withTransaction: Callable[[], None]) -> None:
     """
     Transfer review data from one card to another and call provided callback afterwards.
@@ -219,7 +272,6 @@ class ReviewHistory:
     toCard.load()
 
     tooltip("%s review history from '%s' to '%s'" % (keyword, truncateString(fromF1), truncateString(toF1)) )
-
   def copyCardStats(self, fromCard: Card, toCard: Card) -> None:
     """
     Copy card stats from one card to another.
@@ -296,3 +348,56 @@ class ReviewHistory:
 
 review_history = ReviewHistory()
 review_history.initEvents()
+
+def testFunction() -> None:
+    # deck from where ids should be copied over
+    source_deck = mw.col.decks.by_name(review_history.config.sourceDeck)
+    source_cards = mw.col.decks.cids(source_deck["id"])
+
+    # where to copy ids to
+    target_deck = mw.col.decks.by_name(review_history.config.targetDeck)
+    target_cards = mw.col.decks.cids(target_deck["id"])
+
+    transfer_ids(source_cards, target_cards)
+
+def transfer_ids(source, target):
+    counter = 0
+    for x in target:
+        card_to_update = mw.col.get_card(x)
+        note_to_update = card_to_update.note()
+
+        word = str(note_to_update["Word"])
+        word_reading = str(note_to_update["Word Reading"])
+
+        for y in source:
+            c = mw.col.get_card(y)
+            n = c.note()
+
+            c_word = str(n["Word"])
+            c_word_reading = str(n["Word Reading"])
+
+            if word == c_word and word_reading == c_word_reading:
+                review_history.copyReviewHistoryModified(card_to_update, c)
+                print(str(card_to_update.id) + " " + str(c.id))
+
+                # i swap the ids around, this prevents any db issues that happened when i was trying to set kaishin card to a random id
+                temp = c.id
+                temp2 = c.nid
+
+                c.id = card_to_update.id
+                c.nid = card_to_update.nid
+
+                card_to_update.id = temp
+                card_to_update.nid = temp2
+
+                mw.col.update_card(c)
+                mw.col.update_card(card_to_update)
+                counter = counter + 1
+
+                print("updated " + word)
+    print("updated " + str(counter) + " cards")
+
+
+action = QAction("Update IDs", mw)
+qconnect(action.triggered, testFunction)
+mw.form.menuTools.addAction(action)
