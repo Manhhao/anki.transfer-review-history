@@ -2,7 +2,7 @@
 
 This was written in like 3 hours, I've never worked on Anki plugins before so I excuse the poor code. This code heavily relies on the repository it was forked on, so I thank Kagu-Chan for his code and hope they don't mind me building on top of their code. I won't upload this to AnkiWeb.
 
-This plugin should probably be uninstalled after usage, as it doesn't have any prompts or confirmations before running (and indicating it's running) and it also doesn't remove any functionality of the original code.
+This plugin should probably be uninstalled after usage, as it doesn't have any prompts or confirmations before running and it also doesn't remove any functionality of the original code.
 
 As I didn't use Tango, I can't confirm whether this would also work on it. I've tested this a few times on an old backup from before I imported Kaishi, and it seems to work well for Core2.3k atleast.
 
@@ -28,7 +28,7 @@ Re-import Kaishi 1.5k with the .akpg as a normal deck. Specify deck name under T
 "target_deck": "Core2.3k Version 3" // change this one to whatever your deck is called
 ```
 
-Run using Tools->Update IDs. Your Anki will freeze, just don't touch it and let it run, you can run Anki with it's console using the bat file in Anki's installation directory to see an output.
+Run using Tools->Update IDs. Your Anki will freeze, just don't touch it and let it run, you can run Anki with it's console using the bat file in Anki's installation directory to see an output. A pop up will appear when it is finished.
 
 Delete Kaishi 1.5k and then import it using the akpg again.
 
