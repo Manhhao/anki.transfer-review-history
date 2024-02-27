@@ -34,7 +34,7 @@ Delete Kaishi 1.5k and then import it using the akpg again.
 
 If everything worked well it should say it updated 1,4xx⁩ cards, while importing the remaining cards (in case of using Core).
 
-Those cards are the duplicates that are missing, you can simply move them to the correct by going into the browser, CTRL + A -> Change Deck -> Choose Deck -> Move Cards. These cards will already have the correct IDs as they were moved over. You can delete the now empty Kaishi 1.5k deck.
+Those cards are the duplicates that are missing, you can simply move them to the correct deck by going into the browser, CTRL + A -> Change Deck -> Choose the Deck they should be moved into -> Move Cards. These cards will already have the correct IDs as they were moved over. You can delete the now empty Kaishi 1.5k deck.
 
 That's it, if you now try to import the Kaishi akpg, it should say that 1501 were already present in the collection.
 
