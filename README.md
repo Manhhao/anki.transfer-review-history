@@ -15,7 +15,7 @@ Delete Transfer Review History Add-On if you have it.
 Create a backup of your Anki profile.
 
 Copy contents of this repository into a new folder in your addons21 folder. 
-(C:\Users\%username%\AppData\Roaming\Anki2\addons21 for most people)
+(C:\Users\\%username%\AppData\Roaming\Anki2\addons21 for most people)
 
 Do steps as outlined in https://github.com/donkuri/Kaishi?tab=readme-ov-file#how-to-import-kaishi-15k-on-top-of-another-deck to import Kaishi ontop of Core2.3k (Delete cards not in Kaishi!).
 
