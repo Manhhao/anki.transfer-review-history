@@ -7,7 +7,7 @@ This plugin should probably be uninstalled after usage, as it doesn't have any p
 As I didn't use Tango, I can't confirm whether this would also work on it. I've tested this a few times on an old backup from before I imported Kaishi, and it seems to work well for Core2.3k atleast.
 
 ## Why
-After merging the new Kaishi 1.5k deck on top of (in my case) Core 2.3k, you are not able to get updates by simply re-importing the new akpg files. This plugin should fix it, while also providing an option to handle the incorrect duplicates while overwriting the original deck.
+After merging the new Kaishi 1.5k deck on top of (in my case) Core 2.3k, you are not able to get updates by simply re-importing the new apkg files. This plugin should fix it, while also providing an option to handle the incorrect duplicates while overwriting the original deck.
 
 ## Usage
 Delete Transfer Review History Add-On if you have it.
@@ -21,7 +21,7 @@ Do steps as outlined in https://github.com/donkuri/Kaishi?tab=readme-ov-file#how
 
 Delete Duplicates: Notes -> Find Duplicates -> Search in: Word -> Tag Duplicates -> Go Back into the browser and search tag:duplicate -> CTRL + A and then CTRL + DEL to delete the cards. Progress on already reviewed cards will be reset, it's only a few cards and didn't really matter to me.
 
-Re-import Kaishi 1.5k with the .akpg as a normal deck. Specify deck name under Tools->Add-ons->Transfer Review History->Config
+Re-import Kaishi 1.5k with the .apkg as a normal deck. Specify deck name under Tools->Add-ons->Transfer Review History->Config
 
 ```
 "source_deck": "Kaishi 1.5k", 
@@ -30,13 +30,13 @@ Re-import Kaishi 1.5k with the .akpg as a normal deck. Specify deck name under T
 
 Run using Tools->Update IDs. Your Anki will freeze, just don't touch it and let it run, you can run Anki with it's console using the bat file in Anki's installation directory to see an output. A pop up will appear when it is finished.
 
-Delete Kaishi 1.5k and then import it using the akpg again.
+Delete Kaishi 1.5k and then import it using the apkg again.
 
 If everything worked well it should say it updated 1,4xx⁩ cards, while importing the remaining cards (in case of using Core).
 
 Those cards are the duplicates that are missing, you can simply move them to the correct deck by going into the browser, CTRL + A -> Change Deck -> Choose the Deck they should be moved into -> Move Cards. These cards will already have the correct IDs as they were moved over. You can delete the now empty Kaishi 1.5k deck.
 
-That's it, if you now try to import the Kaishi akpg, it should say that 1501 were already present in the collection.
+That's it, if you now try to import the Kaishi apkg, it should say that 1501 were already present in the collection.
 
 Original README below
 # Transfer Review History
