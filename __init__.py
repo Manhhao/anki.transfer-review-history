@@ -1,6 +1,6 @@
 from typing import Optional, Callable
 from aqt import gui_hooks, mw
-from aqt.utils import tooltip, qconnect
+from aqt.utils import tooltip, qconnect, showInfo
 from aqt.browser import Browser
 from aqt.qt import QAction, QMenu
 from aqt.operations.scheduling import forget_cards
@@ -358,7 +358,9 @@ def testFunction() -> None:
     target_deck = mw.col.decks.by_name(review_history.config.targetDeck)
     target_cards = mw.col.decks.cids(target_deck["id"])
 
-    transfer_ids(source_cards, target_cards)
+    c = transfer_ids(source_cards, target_cards)
+
+    showInfo("updated: %d cards" % c)
 
 def transfer_ids(source, target):
     counter = 0
@@ -380,7 +382,7 @@ def transfer_ids(source, target):
                 review_history.copyReviewHistoryModified(card_to_update, c)
                 print(str(card_to_update.id) + " " + str(c.id))
 
-                # i swap the ids around, this prevents any db issues that happened when i was trying to set kaishin card to a random id
+                # i swap the ids around, this prevents any db issues that happened when i was trying to set kaishi card to a random id
                 temp = c.id
                 temp2 = c.nid
 
@@ -395,7 +397,7 @@ def transfer_ids(source, target):
                 counter = counter + 1
 
                 print("updated " + word)
-    print("updated " + str(counter) + " cards")
+    return counter
 
 
 action = QAction("Update IDs", mw)
