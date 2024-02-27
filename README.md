@@ -1,6 +1,6 @@
 # Copy IDs and Review History from Kaishi 1.5k on Core2.3k/Tango
 
-This was written in like 3 hours, I've never worked on Anki plugins before so I excuse the poor code. This code heavily relies on the repository it was forked on, so I thank Kagu-Chan for his code and hope they don't mind me building on top of their code. I won't upload this to AnkiWeb.
+This was written in like 3 hours, I've never worked on Anki plugins before so I excuse the poor code. This code heavily relies on the repository it was forked off, so I thank Kagu-Chan for his code and hope they don't mind me building on top of their code. I won't upload this to AnkiWeb.
 
 This plugin should probably be uninstalled after usage, as it doesn't have any prompts or confirmations before running and it also doesn't remove any functionality of the original code.
 
