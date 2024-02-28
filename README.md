@@ -12,12 +12,15 @@ After merging the new Kaishi 1.5k deck on top of (in my case) Core 2.3k using th
 This addon provides an option to simply transfer the review history of your existing Core2.3k deck on to a fresh Kaishi 1.5k deck, while also retaining their original sorting should you decide to reset the card. This works even if you've done the .txt method before to fix the ids and duplicates.
 
 ## Usage
+
+Quick video of process: https://www.youtube.com/watch?v=TatE4Cfq-zM
+
 Delete Transfer Review History Add-On if you have it.
 
 __Create a backup of your Anki profile under File->Create Backup.__
 
 Copy contents of this repository into a new folder in your addons21 folder. 
-(C:\Users\\%username%\AppData\Roaming\Anki2\addons21 for most people)
+(```C:\Users\\%username%\AppData\Roaming\Anki2\addons21``` for most people)
 
 Import Kaishi 1.5k as a new deck (if you've renamed your Core deck to Kaishi 1.5k rename it to something different, otherwise Anki merges the deck in automatically).
 
@@ -28,9 +31,9 @@ Change Notetype of your original deck. From the .txt guide by Kuube
 ```
 __Delete Duplicates in both decks:__  
 Notes -> Find Duplicates ->   
-Search in: Word, copy this into Optional filter "deck:Kaishi 1.5k" (including apostrophes)-> Tag Duplicates  
-Repeat, but as optional filter use "deck:Core2.3k Version 3" (or whatever the name of your original deck is), Tag Duplicates again  
-Go Back into the browser and search tag:duplicate ->  
+Search in: Word, copy this into Optional filter ```"deck:Kaishi 1.5k"``` (including apostrophes)-> Tag Duplicates  
+Repeat, but as optional filter use ```"deck:Core2.3k Version 3"``` (or whatever the name of your original deck is), Tag Duplicates again  
+Go Back into the browser and search ```tag:duplicate``` ->  
 CTRL + A and then CTRL + DEL to delete the cards. Progress on already reviewed duplicate cards will be reset, it's only a few cards and didn't really matter to me.
 
 Specify deck name under Tools->Add-ons->Name of Folder you created->Config
