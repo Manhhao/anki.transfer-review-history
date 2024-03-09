@@ -1,4 +1,4 @@
-# Copy IDs and Review History from Kaishi 1.5k on Core2.3k
+# Copy IDs and Review History from Core2.3k on Kaishi 1.5k
 
 This was written in like 3 hours, I've never worked on Anki addons before so I excuse the poor code. This code heavily relies on the repository it was forked off, so I thank Kagu-Chan for his code and hope they don't mind me building on top of their code. I won't upload this to AnkiWeb.
 
