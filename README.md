@@ -1,4 +1,4 @@
-# Copy IDs and Review History from Core2.3k on Kaishi 1.5k
+# Copy Review History from Core2.3k on Kaishi 1.5k
 
 This was written in like 3 hours, I've never worked on Anki addons before so I excuse the poor code. This code heavily relies on the repository it was forked off, so I thank Kagu-Chan for his code and hope they don't mind me building on top of their code. I won't upload this to AnkiWeb.
 
@@ -7,7 +7,7 @@ This should probably be uninstalled after usage, as it doesn't have any prompts 
 As I didn't use Tango, I can't confirm whether this would also work on it. I've tested this a few times on an old backup from before I imported Kaishi, and it seems to work well for Core2.3k atleast.
 
 ## Why
-After merging the new Kaishi 1.5k deck on top of (in my case) Core 2.3k using the .txt method, you are not able to get updates by simply re-importing the new apkg files. There is also duplicates which are incorrectly overwritten, causing multiple pairs of cards to be identical.
+After merging the new Kaishi 1.5k deck on top of (in my case) Core 2.3k using the .txt method, you are not able to get updates by simply re-importing the new apkg files. There are also duplicates which are incorrectly overwritten, causing multiple pairs of cards to be identical.
 
 This addon provides an option to simply transfer the review history of your existing Core2.3k deck on to a fresh Kaishi 1.5k deck, while also retaining their original sorting should you decide to reset the card. This works even if you've done the .txt method before to fix the ids and duplicates.
 
