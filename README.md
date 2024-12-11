@@ -19,7 +19,8 @@ Delete Transfer Review History Add-On if you have it.
 
 __Create a backup of your Anki profile under File->Create Backup.__
 
-Copy contents of this repository into a new folder in your addons21 folder. 
+Download addon from [here](https://github.com/Manhhao/anki.transfer-review-history/releases)
+Extract addon folder into your addons21 folder. 
 (```C:\Users\%username%\AppData\Roaming\Anki2\addons21``` for most people)
 
 Import Kaishi 1.5k as a new deck (if you've renamed your Core deck to Kaishi 1.5k rename it to something different, otherwise Anki merges the deck in automatically).
