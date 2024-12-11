@@ -39,8 +39,8 @@ CTRL + A and then CTRL + DEL to delete the cards. Progress on already reviewed d
 Specify deck name under Tools->Add-ons->Name of Folder you created->Config
 
 ```
-"source_deck": "Kaishi 1.5k", 
-"target_deck": "Core2.3k Version 3" // change this one to whatever your deck is called
+"target_deck": "Kaishi 1.5k", 
+"source_deck": "Core2.3k Version 3" // change this one to whatever your deck is called
 ```
 
 Run using Tools->Review History to Kaishi 1.5k. Your Anki will freeze, just don't touch it and let it run, you can run Anki with it's console using the bat file in Anki's installation directory to see an output. A pop up will appear when it is finished.
@@ -50,3 +50,5 @@ You can now safely delete Core2.3k Version 3, if you want to keep the words whic
 Import the Kaishi 1.5k apkg again, this should add the duplicates you've deleted before.
 
 That's it, if you now try to import the Kaishi apkg, it should say that 1501 were already present in the collection and for updates you can simply import the new apkg file. If you use FSRS, change the preset of Kaishi to the correct one, alternatively you can just optimize the parameters again.
+
+Thanks [TimTheBimLim](https://github.com/TimTheBimLim) for creating a GitHub account, just to create a PR that improves the addon's speed from a minute to 5 seconds.
