@@ -407,15 +407,15 @@ def testFunction() -> None:
 
 def transfer_history(source, target):
     counter = 0
-    for x in source:
-        card_to_update = mw.col.get_card(x)
+    source_cards = [mw.col.get_card(card_id) for card_id in source]
+    target_cards = [mw.col.get_card(card_id) for card_id in target]
+    for card_to_update in source_cards:
         note_to_update = card_to_update.note()
 
         word = str(note_to_update["Word"])
         word_reading = str(note_to_update["Word Reading"])
 
-        for y in target:
-            c = mw.col.get_card(y)
+        for c in target_cards:
             n = c.note()
 
             c_word = str(n["Word"])
