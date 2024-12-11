@@ -391,12 +391,12 @@ review_history = ReviewHistory()
 review_history.initEvents()
 
 
-def testFunction() -> None:
-    # deck from where ids should be copied over
+def run_transfer() -> None:
+    # deck from where review history should be copied from
     source_deck = mw.col.decks.by_name(review_history.config.sourceDeck)
     source_cards = mw.col.decks.cids(source_deck["id"])
 
-    # where to copy ids to
+    # where to copy review history to
     target_deck = mw.col.decks.by_name(review_history.config.targetDeck)
     target_cards = mw.col.decks.cids(target_deck["id"])
 
@@ -409,13 +409,13 @@ def transfer_history(source, target):
     counter = 0
     source_cards = [mw.col.get_card(card_id) for card_id in source]
     target_cards = [mw.col.get_card(card_id) for card_id in target]
-    for card_to_update in source_cards:
+    for card_to_update in target_cards:
         note_to_update = card_to_update.note()
 
         word = str(note_to_update["Word"])
         word_reading = str(note_to_update["Word Reading"])
 
-        for c in target_cards:
+        for c in source_cards:
             n = c.note()
 
             c_word = str(n["Word"])
@@ -430,5 +430,5 @@ def transfer_history(source, target):
 
 
 action = QAction("Review History to Kaishi 1.5k", mw)
-qconnect(action.triggered, testFunction)
+qconnect(action.triggered, run_transfer)
 mw.form.menuTools.addAction(action)
