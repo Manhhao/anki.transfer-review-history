@@ -20,6 +20,7 @@ Delete Transfer Review History Add-On if you have it.
 __Create a backup of your Anki profile under File->Create Backup.__
 
 Download addon from [here](https://github.com/Manhhao/anki.transfer-review-history/releases)
+
 Extract addon folder into your addons21 folder. 
 (```C:\Users\%username%\AppData\Roaming\Anki2\addons21``` for most people)
 
